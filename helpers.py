@@ -1,4 +1,5 @@
-from tkinter import END
+import math
+from tkinter import END, Button
 
 
 def addCharacterToScreen(screen, character):
@@ -56,3 +57,65 @@ def evaluateExpression(extractedElements):
             value of expression or None to indicate an error while evaluating
     """
     pass
+
+
+def errorCheck(screenText, operations):
+    """
+        Checks if input makes sense to the current expression on screen
+        Parameters:
+           screenText : current Text on screen
+           operations : list of supported operations
+        Returns:
+            True : if text is valid
+            False : if there's a problem in the text
+    """
+
+    # check if trying to enter two operations next to each other
+    # or at the end of text to evaluate
+    if (screenText[-1] in operations):
+        return False
+
+    # check if trying to enter operation as a first character
+    if (len(screenText) == 0):
+        return False
+
+    return True
+
+
+def changeAnglesInTextToRadians(text):
+    """
+        Since math library in python takes the angles as radians this function
+        locates angles in string and converts it to radians
+    :param text:
+    :return: text after converting angles to radians
+    """
+    text = str(text)
+    text = findTrigFunctionAndReplaceAngle(text, "sin(")
+    text = findTrigFunctionAndReplaceAngle(text, "cos(")
+    text = findTrigFunctionAndReplaceAngle(text, "tan(")
+    return text
+
+
+def findTrigFunctionAndReplaceAngle(mainText, textToFind):
+    """
+    Helper function for changeAnglesInTextToRadians
+    :param textToFind: sin cos or tan
+    :return: text after converting angle
+    """
+    index = mainText.find(textToFind)
+    # if not found return
+    if index == -1:
+        return mainText
+
+    index += len(textToFind)
+    angleString = ""
+    for character in mainText[index:]:
+        if character == ')':
+            break
+        else:
+            angleString += character
+    angle = float(angleString)
+    angle = angle * (math.pi / 180)
+    mainText = mainText.replace(angleString, str(angle))
+    return mainText
+
