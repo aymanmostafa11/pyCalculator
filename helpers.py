@@ -2,16 +2,16 @@ import math
 from tkinter import END, Button
 
 
-def addCharacterToScreen(screen, character):
+def addTextToScreen(screen, text):
     """
-        Enables the screen to add a character then locks it again to prevent user from typing manually
+        Enables the screen to add text then locks it again to prevent user from typing manually
         Parameters:
             screen :  tkinter.Entry  screen to add character to
-            character : character to be added
+            text : character to be added
     """
     screen.config(state='normal')
     elementsOnScreen = screen.get()
-    screen.insert(len(elementsOnScreen), str(character))
+    screen.insert(len(elementsOnScreen), str(text))
     screen.config(state='disabled')
 
 
@@ -21,6 +21,7 @@ def screenClear(screen):
     screen.config(state='disabled')
 
 
+# Currently not used in the project, you can delete if you want
 def extractNumbersAndOperations(text, operations):
     """
         Parameters:
@@ -49,16 +50,6 @@ def extractNumbersAndOperations(text, operations):
     return extractedElements
 
 
-def evaluateExpression(extractedElements):
-    """
-        Parameters:
-           extractedElements : elements to evaluate
-        Returns:
-            value of expression or None to indicate an error while evaluating
-    """
-    pass
-
-
 def errorCheck(screenText, operations):
     """
         Checks if input makes sense to the current expression on screen
@@ -70,13 +61,13 @@ def errorCheck(screenText, operations):
             False : if there's a problem in the text
     """
 
-    # check if trying to enter two operations next to each other
-    # or at the end of text to evaluate
-    if (screenText[-1] in operations):
+    # check if trying to enter operation as a first character
+    if len(screenText) == 0:
         return False
 
-    # check if trying to enter operation as a first character
-    if (len(screenText) == 0):
+    # check if trying to enter two operations next to each other
+    # or at the end of text to evaluate
+    if screenText[-1] in operations:
         return False
 
     return True
@@ -114,8 +105,16 @@ def findTrigFunctionAndReplaceAngle(mainText, textToFind):
             break
         else:
             angleString += character
+
+    if angleString == "":
+        return mainText
+
     angle = float(angleString)
     angle = angle * (math.pi / 180)
     mainText = mainText.replace(angleString, str(angle))
     return mainText
+
+
+
+
 
