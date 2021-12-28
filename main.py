@@ -3,7 +3,7 @@ from tkinter import *
 from helpers import *
 from math import sin, cos, tan, sqrt, pow, log
 
-MAX_PRECISION = 7 # number of decimal digits
+MAX_PRECISION = 7  # number of decimal digits
 
 # making the the calculator interface
 window = Tk()
@@ -46,6 +46,7 @@ def button_delete():
 
 def button_equal():
     help_label.grid_forget()
+
     textOnScreen = calculatorScreen.get()
     textOnScreen = changeAnglesInTextToRadians(textOnScreen)
     textToShow = ""
