@@ -7,7 +7,7 @@ def addTextToScreen(screen, text):
         Enables the screen to add text then locks it again to prevent user from typing manually
         Parameters:
             screen :  tkinter.Entry  screen to add character to
-            text : character to be added
+            text : text to be added
     """
     screen.config(state='normal')
     elementsOnScreen = screen.get()
@@ -19,35 +19,6 @@ def screenClear(screen):
     screen.config(state='normal')
     screen.delete(0, END)
     screen.config(state='disabled')
-
-
-# Currently not used in the project, you can delete if you want
-def extractNumbersAndOperations(text, operations):
-    """
-        Parameters:
-           text : string to extract numbers and operations from
-           operations : list of supported operations
-        Returns:
-            list containing each number and each operation separately
-    """
-    extractedElements = []
-    numberString = ""
-
-    for character in text:
-        # if it's a number add it to number string
-        if character not in operations:
-            numberString += character
-        # if it's an operation then the number is finished so add it to extracted elements
-        else:
-            extractedElements.append(numberString)
-            numberString = ""  # reset number string for next numbers
-            extractedElements.append(character)  # add found operation to extracted elements
-
-    # to add the last number since the loop exits before it's added
-    if numberString != "":
-        extractedElements.append()
-
-    return extractedElements
 
 
 def errorCheck(screenText, operations):
@@ -100,11 +71,15 @@ def findTrigFunctionAndReplaceAngle(mainText, textToFind):
 
     index += len(textToFind)
     angleString = ""
+    numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
+
     for character in mainText[index:]:
         if character == ')':
             break
-        else:
+        elif character in numbers:  # make sure the character is a number
             angleString += character
+        else:  # if invalid character found return
+            return mainText
 
     if angleString == "":
         return mainText

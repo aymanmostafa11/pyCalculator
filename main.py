@@ -31,7 +31,7 @@ def button_click(number):
 
 
 def button_clear():
-    help_label.grid_forget() # remove help message
+    help_label.grid_forget()  # remove help message
     screenClear(calculatorScreen)
 
 
@@ -39,7 +39,7 @@ def button_delete():
     textOnScreen = calculatorScreen.get()
     # if there's text on screen, remove last letter then clear and add the new text
     if len(textOnScreen) > 0:
-        textOnScreen = textOnScreen[:-1]
+        textOnScreen = textOnScreen[0: -1]  # access string without the last element
         screenClear(calculatorScreen)
         addTextToScreen(calculatorScreen, textOnScreen)
 
@@ -94,7 +94,7 @@ def button_tan():
 def button_log():
     addTextToScreen(calculatorScreen, "log(")
     help_label.config(text="Log usage : log(number, base)")
-    help_label.grid(row=0,column=3,columnspan=2)
+    help_label.grid(row=0, column=3, columnspan=2)
 
 
 def button_sqrt():
